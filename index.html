@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Baby It's Cold Inside</title>
+
+    <link rel="icon" type="image/png" href="img/icon_11569.png">
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+      <div class="container center-container">
+        <h1>Baby It's Cold Inside</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <p>It's</p>
+                <div id="temperature-wrapper"><span id="temperature-value"></span>&deg;</div>
+                <p>in my apartment.</p>
+            </div>
+            <div class="col-md-8">
+                <p>As the temperature drops outside, many apartments in Chicago are also cold.  However, Chicago's <a href="http://www.amlegal.com/nxt/gateway.dll/Illinois/chicago_il/title5housingandeconomicdevelopment/chapter5-12residentiallandlordsandtenant?f=templates$fn=default.htm$3.0$vid=amlegal:chicago_il">Residential Landlord and Tenant (RLT) Ordinance</a> requires that landlords maintain units at a certain temperature.</p>
+                <p><a class="btn btn-primary btn-lg" role="button" href="http://www.tenants-rights.org/heat-other-essential-services-faq/">Learn more »</a></p>
+            </div>
+        </div>
+      </div>
+
+    <div id="attribution">
+        <div id="attribution-inner">
+    <p id="flickr-attribution">Photo: <a href="http://www.flickr.com/photos/robert_r_gigliotti/8425022938/">7th floor ice room</a> by <a href="https://secure.flickr.com/photos/robert_r_gigliotti/">Robert R Gigliotti, RRGPhotography.com</a>. <a href="http://creativecommons.org/licenses/by-nc-nd/2.0/">Some rights reserved</a>.</p>
+    <p id="icon-attribution">Icon: <a href="http://thenounproject.com/term/snowflake/11569/">Snowflake</a> by <a href="http://thenounproject.com/gilad1">Gilad Fried</a>.</p>
+      </div>
+    </div>
+
+      </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+
+    <script>
+    (function(window) {
+      var XIVELY_FEED_ENDPOINT = 'https://api.xively.com/v2/feeds/960752696';
+      var XIVELY_DATASTREAM_ID = 'temperature';
+      var XIVELY_API_KEY = 'NgMxZnoeBYrsQFlGsSkabKmu7vWjYxXCY3ZWheT3qDCVpCQt';
+
+      function getTemperature(callback) {
+        d3.json(XIVELY_FEED_ENDPOINT + '?datastreams=' + XIVELY_DATASTREAM_ID)
+        .header('X-ApiKey', XIVELY_API_KEY)
+        .on('load', function(json) {
+          var temp = parseFloat(json.datastreams[0].current_value);
+          callback(temp);
+        })
+        .on('error', function(error) {
+        })
+        .get();
+      }
+
+      function getClass(temp) {
+        if (temp < 68) {
+          return 'cold';
+        }
+
+        return 'warm';
+      }
+
+      function updateTemperature(temp) {
+        var el = d3.select('#temperature-value');
+        el.html(temp);
+        el.classed(getClass(temp));
+      }
+
+      getTemperature(updateTemperature);
+
+      setInterval(function() {
+        getTemperature(updateTemperature);
+      }, 60000);
+
+    })(window);
+    </script>
+  </body>
+</html>

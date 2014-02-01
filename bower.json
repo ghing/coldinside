@@ -1,0 +1,19 @@
+{
+  "name": "coldinside",
+  "version": "0.0.0",
+  "authors": [
+    "Geoff Hing <geoffhing@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.1",
+    "bootstrap": "~3.1.0"
+  }
+}
