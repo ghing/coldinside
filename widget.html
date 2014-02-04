@@ -1,0 +1,44 @@
+<html lang="en">
+  <head>
+      <link href="css/bootstrap.css" rel="stylesheet">
+      <style type="text/css">
+      body {
+        color: #fff;
+        background-color: #428BCA 
+      }
+
+      #container {
+        padding: 1em;
+        font-size: 1.5em;
+      }
+
+      #temperature-value {
+        font-size: 2em;
+      }
+      </style>
+  </head>
+  <body>
+    <div id="container">
+      <p>It's</p>
+        <div id="temperature-wrapper"><span id="temperature-value"></span>&deg;</div>
+        <p>in my apartment.</p>
+    </div>
+    <script src="js/d3.min.js"></script>
+    <script src="js/coldinside.js"></script>
+
+    <script>
+    function updateTemperature(temp) {
+      var el = d3.select('#temperature-value');
+      el.html(temp);
+      el.classed(ColdInside.getClass(temp));
+    }
+
+    ColdInside.getTemperature(updateTemperature);
+
+    setInterval(function() {
+      ColdInside.getTemperature(updateTemperature);
+    }, 60000);
+    </script>
+
+  </body>
+</html>

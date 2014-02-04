@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
     watch: {
       html: {
-        files: ['index.html'],
+        files: ['index.html', 'widget.html'],
         tasks: ['copy:html']
       },
       data: {
@@ -20,6 +20,10 @@ module.exports = function(grunt) {
       img: {
         files: 'img/*',
         tasks: ['copy:img']
+      },
+      js: {
+        files: 'js/*',
+        tasks: ['copy:js']
       }
     },
 
@@ -27,7 +31,16 @@ module.exports = function(grunt) {
       html: {
         files: [
           {
-            src: 'index.html',
+            src: '*.html',
+            dest: 'dist/'
+          }
+        ]
+      },
+
+      js: {
+        files: [
+          {
+            src: 'js/*',
             dest: 'dist/'
           }
         ]

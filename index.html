@@ -52,46 +52,20 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/d3.min.js"></script>
+    <script src="js/coldinside.js"></script>
 
     <script>
-    (function(window) {
-      var XIVELY_FEED_ENDPOINT = 'https://api.xively.com/v2/feeds/960752696';
-      var XIVELY_DATASTREAM_ID = 'temperature';
-      var XIVELY_API_KEY = 'NgMxZnoeBYrsQFlGsSkabKmu7vWjYxXCY3ZWheT3qDCVpCQt';
+    function updateTemperature(temp) {
+      var el = d3.select('#temperature-value');
+      el.html(temp);
+      el.classed(ColdInside.getClass(temp));
+    }
 
-      function getTemperature(callback) {
-        d3.json(XIVELY_FEED_ENDPOINT + '?datastreams=' + XIVELY_DATASTREAM_ID)
-        .header('X-ApiKey', XIVELY_API_KEY)
-        .on('load', function(json) {
-          var temp = parseFloat(json.datastreams[0].current_value);
-          callback(temp);
-        })
-        .on('error', function(error) {
-        })
-        .get();
-      }
+    ColdInside.getTemperature(updateTemperature);
 
-      function getClass(temp) {
-        if (temp < 68) {
-          return 'cold';
-        }
-
-        return 'warm';
-      }
-
-      function updateTemperature(temp) {
-        var el = d3.select('#temperature-value');
-        el.html(temp);
-        el.classed(getClass(temp));
-      }
-
-      getTemperature(updateTemperature);
-
-      setInterval(function() {
-        getTemperature(updateTemperature);
-      }, 60000);
-
-    })(window);
+    setInterval(function() {
+      ColdInside.getTemperature(updateTemperature);
+    }, 60000);
     </script>
   </body>
 </html>
