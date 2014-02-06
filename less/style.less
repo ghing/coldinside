@@ -1,3 +1,5 @@
+@import "variables.less";
+
 html, body {
   height: 100%;
 }
@@ -17,7 +19,11 @@ body {
 
 .site-wrapper-inner {
   display: table-cell;
-  vertical-align: middle;
+  vertical-align: top;
+
+  @media (min-height: 600px) {
+    vertical-align: middle;
+  }
 }
 
 .center-container {
@@ -43,10 +49,17 @@ body {
 }
 
 #attribution {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 0 0 1em 0;
+  margin-top: 10px;
+
+  @media (min-height: 600px) {
+    position: absolute;
+    bottom: 0;
+  }
+
+  @media (min-width: @screen-xs-min) {
+    right: 0;
+    padding: 0 0 1em 0;
+  }
 }
 
 #attribution-inner {
